@@ -79,7 +79,8 @@ class PoseEditor3D(object):
 
         return (poseImage, depthImage, normalImage, cannyImage,)
 
-    def IS_CHANGED(self, pose=None, depth=None, normal=None, canny=None):
+    @classmethod
+    def IS_CHANGED(cls, pose=None, depth=None, normal=None, canny=None):
         if pose is None:
             return False
 
