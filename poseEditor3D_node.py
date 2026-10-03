@@ -21,7 +21,7 @@ class PoseEditor3D(object):
     @classmethod
     def INPUT_TYPES(self):
         temp_dir = folder_paths.get_temp_directory()
-        temp_dir = os.path.join(temp_dir, '3dposeeditor')
+        temp_dir = os.path.join(temp_dir, 'poseforge3d')
 
         if not os.path.isdir(temp_dir):
             os.makedirs(temp_dir)
@@ -40,14 +40,14 @@ class PoseEditor3D(object):
     RETURN_NAMES = ("OpenPose", "Depth", "Normal", "Canny",)
     FUNCTION = "output_pose"
 
-    CATEGORY = "image"
+    CATEGORY = "PoseForge3D"
 
     def output_pose(self, pose=None, depth=None, normal=None, canny=None):
         if pose is None:
             return (None, None, None, None,)
 
         temp_dir = folder_paths.get_temp_directory()
-        temp_dir = os.path.join(temp_dir, '3dposeeditor')
+        temp_dir = os.path.join(temp_dir, 'poseforge3d')
 
         image_path = os.path.join(temp_dir, pose)
 
@@ -85,7 +85,7 @@ class PoseEditor3D(object):
             return False
 
         temp_dir = folder_paths.get_temp_directory()
-        temp_dir = os.path.join(temp_dir, '3dposeeditor')
+        temp_dir = os.path.join(temp_dir, 'poseforge3d')
 
         image_path = os.path.join(temp_dir, pose)
         # print(f'Change: {image_path}')
@@ -96,9 +96,9 @@ class PoseEditor3D(object):
         return m.digest().hex()
 
 NODE_CLASS_MAPPINGS = {
-    "Hina.PoseEditor3D": PoseEditor3D
+    "PoseForge3D.PoseEditor": PoseEditor3D
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "Hina.PoseEditor3D": "3D Pose Editor"
+    "PoseForge3D.PoseEditor": "PoseForge 3D 姿势编辑器"
 }

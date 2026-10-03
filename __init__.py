@@ -17,13 +17,13 @@ __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS', 'WEB_DIRECTORY']
 
 # # Cleanup old extension folder
 folder_web = os.path.join(os.path.dirname(os.path.realpath(__main__.__file__)), "web")
-extensions_folder = os.path.join(folder_web, 'extensions', 'ComfyUI_3dPoseEditor')
+extensions_folder = os.path.join(folder_web, 'extensions', 'ComfyUI-PoseForge3D')
 
 def cleanup():
     if os.path.exists(extensions_folder):
         shutil.rmtree(extensions_folder)
-        print('\033[34m3D OpenPose Editor: \033[92mRemoved old extension folder\033[0m')
+        print('\033[34mPoseForge 3D: \033[92mRemoved old extension folder\033[0m')
 
 cleanup()
 
-print('\033[34m3D OpenPose Editor: \033[92mLoaded\033[0m')
+print('\033[34mPoseForge 3D: \033[92mLoaded\033[0m')

@@ -1,14 +1,15 @@
 [project]
-name = "comfyui_3dposeeditor"
-description = "Nodes:3D Pose Editor"
-version = "1.0.0"
+name = "comfyui-posforget3d"
+description = "PoseForge3D - 增强版 3D 姿势编辑器，一次输出 OpenPose/Depth/Normal/Canny"
+version = "2.0.0"
 license = "LICENSE"
 
 [project.urls]
-Repository = "https://github.com/hinablue/ComfyUI_3dPoseEditor"
+Repository = "https://github.com/zoe40404/ComfyUI-PoseForge3D"
+# 原作仓库 (upstream): https://github.com/hinablue/ComfyUI_3dPoseEditor
 #  Used by Comfy Registry https://comfyregistry.org
 
 [tool.comfy]
 PublisherId = ""
-DisplayName = "ComfyUI_3dPoseEditor"
+DisplayName = "PoseForge3D 姿势编辑器"
 Icon = ""

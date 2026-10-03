@@ -6,7 +6,7 @@ class OpenPoseEditor {
         this.images = node.widgets.filter(w => ['pose','depth','normal','canny'].indexOf(w.name)> -1)
 
         this.iframe =  document.createElement('iframe')
-        this.iframe.src = '/extensions/ComfyUI_3dPoseEditor/editor.html'
+        this.iframe.src = '/extensions/ComfyUI-PoseForge3D/editor.html'
         container.appendChild(this.iframe)
     }
 
@@ -21,7 +21,7 @@ class OpenPoseEditor {
             formData.append('image', blobData, filename)
             formData.append('overwrite', 'true')
             formData.append('type', 'temp')
-            formData.append('subfolder', '3dposeeditor')
+            formData.append('subfolder', 'poseforge3d')
 
             const resp = await fetch('/upload/image', {
                 method: 'POST',
@@ -31,7 +31,7 @@ class OpenPoseEditor {
             if (resp.status === 200) {
                 const data = await resp.json()
 
-                console.log("[3D Pose Editor] Upload image success.", data.name)
+                console.log("[PoseForge3D] Upload image success.", data.name)
 
                 image.options.value = data.name
                 image.value = data.name
@@ -160,6 +160,19 @@ function createOpenPoseEditor(node, inputName, inputData, app) {
 
     node.addCustomWidget(widget)
 
+    const savePoseWidget = node.addWidget("button", "保存当前姿势到节点", null, () => {
+        node.isMakingImages = true
+        postMessage({
+            cmd: 'openpose-3d',
+            method: 'MakeImages',
+            type: 'call',
+            payload: null,
+        })
+    })
+    // 放到节点最顶部，避免被内嵌的编辑器 iframe 遮挡
+    node.widgets.splice(node.widgets.indexOf(savePoseWidget), 1)
+    node.widgets.unshift(savePoseWidget)
+
     node.onRemoved = () => {
         window.removeEventListener('message', widget.handleMessage, false)
         node.openposeeditor.iframe.contentWindow.removeEventListener('mouseup', handlerMouseUp, false)
@@ -226,9 +239,9 @@ function createOpenPoseEditor(node, inputName, inputData, app) {
                 payload: null,
             })
 
-            node.openposeeditor.iframe.contentWindow.addEventListener('mouseup', handlerMouseUp, false)
+            /* 已取消松手自动出图，仅通过保存按钮手动出图 */
         }).catch(() => {
-            console.log("[3D Pose Editor] Editor initialize failed.")
+            console.log("[PoseForge3D] Editor initialize failed.")
         })
     }, 150)
 
@@ -238,7 +251,7 @@ function createOpenPoseEditor(node, inputName, inputData, app) {
 }
 
 app.registerExtension({
-    name: "Hina.PoseEditor3D",
+    name: "PoseForge3D.PoseEditor",
 
     async init (app) {
         const style = document.createElement("style")
@@ -247,8 +260,8 @@ app.registerExtension({
     },
 
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
-        if (nodeData.name === "Hina.PoseEditor3D") {
-            console.log("[3D Pose Editor] Registering node...", nodeData)
+        if (nodeData.name === "PoseForge3D.PoseEditor") {
+            console.log("[PoseForge3D] Registering node...", nodeData)
 
             const onNodeCreated = nodeType.prototype.onNodeCreated
 
@@ -258,11 +271,11 @@ app.registerExtension({
                     : undefined
 
                 let openPoseNode = app.graph._nodes.filter(
-                    (wi) => wi.type == "Hina.PoseEditor3D"
+                    (wi) => wi.type == "PoseForge3D.PoseEditor"
                 )
                 let nodeName = `OpenPoseEditor_${openPoseNode.length}`
 
-                console.log(`[3D Pose Editor] Create PoseNode: ${nodeName}`)
+                console.log(`[PoseForge3D] Create PoseNode: ${nodeName}`)
 
                 const result = await createOpenPoseEditor.apply(this, [this, nodeName, {}, app])
 
