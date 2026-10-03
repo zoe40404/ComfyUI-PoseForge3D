@@ -70,7 +70,7 @@
 # 进入 ComfyUI 的 custom_nodes 目录
 cd ComfyUI/custom_nodes
 
-# 克隆本仓库（目录名必须为 ComfyUI-PoseForge3D）
+# 克隆本仓库（目录名为 ComfyUI-PoseForge3D）
 git clone https://github.com/zoe40404/ComfyUI-PoseForge3D.git
 ```
 
