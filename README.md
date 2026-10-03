@@ -71,7 +71,7 @@
 cd ComfyUI/custom_nodes
 
 # 克隆本仓库（目录名必须为 ComfyUI-PoseForge3D）
-git clone https://github.com/zoe40404/ComfyUI-PoseForge3D.git ComfyUI-PoseForge3D
+git clone https://github.com/zoe40404/ComfyUI-PoseForge3D.git
 ```
 
 随后重启 ComfyUI。Windows 便携版的 `custom_nodes` 路径一般为 `ComfyUI\custom_nodes\`。
